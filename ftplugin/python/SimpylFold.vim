@@ -3,6 +3,10 @@ if exists('b:loaded_SimpylFold')
 endif
 let b:loaded_SimpylFold = 1
 
+if exists('g:simpylfold_fold_first_blank')
+	let g:SimpylFold_next_blank = 1
+endif
+
 let s:blank_regex = '\v^\s*(\#.*)?$'
 if &ft == 'pyrex' || &ft == 'cython'
     let b:def_regex = '\v^\s*%(%(class|%(async\s+)?def|cdef|cpdef|ctypedef)\s+\w+)|cdef\s*:\s*'
@@ -119,7 +123,11 @@ function! SimpylFold(lnum)
         if next_line == 0
             return 0
         elseif getline(next_line) =~# b:def_regex
-            return SimpylFold(next_line) - 1
+			let nextlvl = SimpylFold(next_line)
+			if g:SimpylFold_next_blank
+				return '<' . nextlvl
+			endif
+			return nextlvl - 1
         else
             return -1
         endif
