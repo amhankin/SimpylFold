@@ -123,11 +123,11 @@ function! SimpylFold(lnum)
         if next_line == 0
             return 0
         elseif getline(next_line) =~# b:def_regex
-			let nextlvl = SimpylFold(next_line)
-			if g:SimpylFold_next_blank
-				return '<' . nextlvl
-			endif
-			return nextlvl - 1
+            let nextlvl = SimpylFold(next_line)
+            if g:SimpylFold_next_blank
+            	return '<' . nextlvl
+            endif
+            return nextlvl - 1
         else
             return -1
         endif
