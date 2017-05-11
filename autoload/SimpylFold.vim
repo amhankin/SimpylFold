@@ -258,7 +258,10 @@ function! s:cache() abort
             let ind_def = ind
             call s:blanks_adj(cache, lnum, foldlevel)
             let cache[lnum]['foldexpr'] = '>' . (foldlevel + 1)
-            let cache[lnum-1]['foldexpr'] = '<' . (foldlevel+1)
+
+			" Try to fold blank lines after function/class definitions
+            call s:blanks_adj(cache, lnum-1, foldlevel + 1)
+			let cache[lnum-1]['foldexpr'] = '<' . (foldlevel + 1)
             continue
         endif
 
